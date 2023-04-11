@@ -76,15 +76,22 @@ def do_sync(p_data,state,p_catalog):
         mdata = stream['metadata']
         singer.write_schema(stream_id, schemas[stream_id], 'id')
         if stream_id == 'users':
-            url = p_data['service_url'] + "users"
+            # url = p_data['service_url'] + "users"
+            url = p_data['service_url'] + 'users?filter=status eq "ACTIVE" or \
+                                            status eq "SUSPENDED" or \
+                                            status eq "PROVISIONED" or \
+                                            status eq "STAGED" or \
+                                            status eq "PASSWORD_EXPIRED" or \
+                                            status eq "LOCKED_OUT" or \
+                                            status eq "DEPROVISIONED" \
+                                            '
             url_pagination(stream_id, url, p_data,state)
-        elif stream_id == 'groups':
-            url = p_data['service_url'] + "groups"
-            url_pagination(stream_id, url, p_data,state)
-        elif stream_id == 'applications':
-            url = p_data['service_url'] + "apps"
-            url_pagination(stream_id, url, p_data,state)
-
+        # elif stream_id == 'groups':
+        #     url = p_data['service_url'] + "groups"
+        #     url_pagination(stream_id, url, p_data,state)
+        # elif stream_id == 'applications':
+        #     url = p_data['service_url'] + "apps"
+        #     url_pagination(stream_id, url, p_data,state)
 
 
 def url_pagination(p_schema, p_url, p_data,p_state):
